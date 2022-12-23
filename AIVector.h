@@ -79,6 +79,10 @@ AIVector<T>::AIVector(int size){
 }
 
 
+
+
+
+
 //----------------------------------------------------Copy Constructor------------------------------------------------------
 /**
  * @brief perform deep copy to avoid dangling pointer and MemoryLeaks
@@ -96,6 +100,10 @@ AIVector<T>::AIVector(const AIVector<T> &other){
         this->arr[i] = other.arr[i];
     }
 }
+
+
+
+
 
 //----------------------------------------------------Copy from Array--------------------------------------------------------
 
@@ -118,6 +126,9 @@ AIVector<T>::AIVector(T* other, int n) {
 
 
 
+
+
+
 //----------------------------------------------------Move Constructor--------------------------------------------------------
 /**
  * @brief Move constuctor to avoid uncessary copies
@@ -136,6 +147,9 @@ AIVector<T>::AIVector(AIVector<T>&& other){
     other.arrayCapacity = 0;
 
 }
+
+
+
 
 
 //----------------------------------------------------Copy Assignment--------------------------------------------------------
@@ -163,7 +177,12 @@ AIVector<T>& AIVector<T>::operator=(const AIVector<T>& other) {
 }
 
 
-// Move assignment
+
+
+
+
+
+//----------------------------------------------------Move Assignment--------------------------------------------------------
 template<typename T>
 AIVector<T> AIVector<T>::operator=(AIVector<T> &&other) {
     this->arr = other.arr;
@@ -178,14 +197,22 @@ AIVector<T> AIVector<T>::operator=(AIVector<T> &&other) {
 }
 
 
-// Destructor
+
+
+
+
+//----------------------------------------------------Destructor------------------------------------------------------------------
+
 template<typename T>
 AIVector<T>::~AIVector() {
     delete[] this->arr;
 }
 
 
-// Indexing
+
+
+
+//----------------------------------------------------INDEXING LHS [] --------------------------------------------------------------------
 
 template<typename T>
 T &AIVector<T>::operator[](int position){
@@ -195,6 +222,12 @@ T &AIVector<T>::operator[](int position){
 
 }
 
+
+
+
+
+//----------------------------------------------------INDEXING RHS [] --------------------------------------------------------------------
+
 template<typename T>
 T &AIVector<T>::operator[](int position)const{
     if(position<0 || position >= capacity())
@@ -203,7 +236,18 @@ T &AIVector<T>::operator[](int position)const{
 }
 
 
-// removing  elements
+
+
+
+
+//---------------------------------------------------- Pop-Back --------------------------------------------------------------------
+/**
+ * @brief delete last element is the vector 
+ *        decrase size by 1 
+ * 
+ * @tparam T 
+ * @return T new size after deleting
+ */
 template<typename T>
 T AIVector<T>::pop_back() {
     if(this->isEmpty())
@@ -212,7 +256,20 @@ T AIVector<T>::pop_back() {
     return this->arr[size()+1];
 }
 
-// adding elements
+
+
+
+
+
+//---------------------------------------------------- Push-Back --------------------------------------------------------------------
+/**
+ * @brief add element to the end of the vector 
+ *        if allocated capcaity is bigger than size we add to the array
+ *        if allocated capcity is smaller we multiply capacity *2 
+ * @tparam T 
+ * @param element 
+ * @return int 
+ */
 template<typename T>
 int AIVector<T>::push_back(const T &element) {
     if(size() >= capacity()){
@@ -236,11 +293,23 @@ int AIVector<T>::push_back(const T &element) {
 }
 
 
-// Comparison
+
+
+
+
+//---------------------------------------------------- < operator --------------------------------------------------------------------
+/**
+ * @brief 
+ * 
+ * @tparam T 
+ * @param other 
+ * @return true 
+ * @return false 
+ */
 template<typename T>
 bool AIVector<T>::operator<(const AIVector<T> &other)const{
     int size  = min(this->size(), other.size());
-    for (int i = 0; i <size; ++i) {
+    for (int i = 0; i < size; ++i) {
         if((*this)[i] < other[i])
             return true;
         if((*this)[i] > other[i])
@@ -249,10 +318,23 @@ bool AIVector<T>::operator<(const AIVector<T> &other)const{
     return false;
 }
 
+
+
+
+
+//---------------------------------------------------- > operator --------------------------------------------------------------------
+/**
+ * @brief check if elements of first vecotr  is bigger than other vector
+ * 
+ * @tparam T 
+ * @param other 
+ * @return true if first diffrent element is bigger than the element in other vector
+ * @return false if equal or smaller elements 
+ */
 template<typename T>
 bool AIVector<T>::operator>(const AIVector<T> &other)const {
     int size  = min(this->size(), other.size());
-    for (int i = 0; i <size; ++i) {
+    for (int i = 0; i < size; ++i) {
         if((*this)[i] > other[i])
             return true;
         if((*this)[i] < other[i])
@@ -261,6 +343,23 @@ bool AIVector<T>::operator>(const AIVector<T> &other)const {
     return false;
 }
 
+
+
+
+
+
+
+
+//---------------------------------------------------- ==  Operator--------------------------------------------------------------------
+
+/**
+ * @brief  check equality of two vectors
+ * 
+ * @tparam T 
+ * @param other 
+ * @return true if two vetors are of same size and data 
+ * @return false if two vectors are of diffrent sizes or data
+ */
 template<typename T>
 bool AIVector<T>::operator==(const AIVector <T>&other)const{
     if(this->size() != other.size())
@@ -273,27 +372,73 @@ bool AIVector<T>::operator==(const AIVector <T>&other)const{
     return true;
 }
 
-// getters
-// return number of occupied elements
+
+
+
+
+
+//-------------------------------------------------------Size getter --------------------------------------------------------------------
+/**
+ * @brief getting number of elements stored in the vector
+ * 
+ * @tparam T 
+ * @return int number of data stored in the vector
+ */
 template<typename T>
 int AIVector<T>::size() const {
     return this->arraySize;
 }
 
 
-// return number of Reserved Element in the memory
+
+
+
+
+
+//----------------------------------------------------Capacity getter--------------------------------------------------------------------
+/**
+ * @brief get allocated memory 
+ * 
+ * @tparam T 
+ * @return int number of allocated data 
+ */
 template<typename T>
 int AIVector<T>::capacity() const {
     return this->arrayCapacity;
 }
 
-// check if no elements occupy the memory
+
+
+
+
+//----------------------------------------------------Empty check--------------------------------------------------------------------
+/**
+ * @brief determine if there is data stored in the vector
+ * 
+ * @tparam T 
+ * @return true if no elements in the vector
+ * @return false if there is elements in the vector
+ */
 template<typename T>
 bool AIVector<T>::isEmpty() const {
     return this->size() == 0;
 }
 
-// reSizing
+
+
+
+
+
+
+
+//----------------------------------------------------Resizing--------------------------------------------------------------------
+/**
+ * @brief resizing the vetor to allocate a smaller or bigger byffer of data
+ *         if newSize is smaller we dont delete extra memory to optimize performance
+ *         if newSize is bigger we allocate a bigger buffer of data
+ * @tparam T 
+ * @param newSize 
+ */
 template<typename T>
 void AIVector<T>::resize(int newSize) {
     if(newSize <= this->size()){
@@ -312,7 +457,18 @@ void AIVector<T>::resize(int newSize) {
     }
 }
 
-// setting all elements to default values
+
+
+
+
+
+//----------------------------------------------------Clearing vector--------------------------------------------------------------------
+/**
+ * @brief clearing all the allocated elements,setting them to their default value 
+ *        setting size to 0 
+ * 
+ * @tparam T 
+ */
 template<typename T>
 void AIVector<T>::clear() {
     for (int i = 0; i < this->size(); ++i) {
@@ -321,7 +477,16 @@ void AIVector<T>::clear() {
     this->arraySize = 0;
 }
 
-// printing
+
+
+
+
+//----------------------------------------------------Printing--------------------------------------------------------------------
+
+/**
+ * @brief   printing the data in the vector 
+ * 
+ */
 template<typename T>
 std::ostream &operator<<(std::ostream &out,AIVector<T> vector){
     int size= vector.size();
@@ -332,6 +497,19 @@ std::ostream &operator<<(std::ostream &out,AIVector<T> vector){
 }
 
 
+
+
+
+
+
+//----------------------------------------------------Erasing one elements--------------------------------------------------------------------
+
+/**
+ * @brief function that takes one iterator and erase element at that iterator position if it is valid 
+ *        it raises an exception if iterator is unvalid
+ * 
+ * @tparam Iterator<T> iterator to be erased from the vector 
+ */
 template<typename T>
 using Iterator = T* ;
 template<typename T>
@@ -347,6 +525,23 @@ void AIVector<T>::erase(Iterator<T> it){
     this->arraySize--;
 }
 
+
+
+
+
+
+
+
+
+//----------------------------------------------------Erasing Range of elements--------------------------------------------------------------------
+
+/**
+ * @brief function erasing a range of elements from start iterator up to another  iterator 
+ *        it erases an exception if iterator is unvalid 
+ * 
+ * @tparam Iterator<T>it1 start iterator , Iterator<T>it2 end iterator 
+ *         erase from start to end iterator not  including the  end element
+ */
 template<typename T>
 using Iterator = T* ;
 template<typename T>
@@ -370,17 +565,54 @@ void AIVector<T>::erase(Iterator<T> it1, Iterator<T> it2) {
 }
 
 
+
+
+
+
+//---------------------------------------------------- End Iterator--------------------------------------------------------------------
+
+/**
+ * @brief function returning iterator after the last element in the vector 
+ * 
+ * @tparam T 
+ * @return Iterator<T>  iterator after last element
+ */
 template<typename T>
 Iterator<T> AIVector<T>::end() const {
     return this->begin()+size();
 }
 
+
+
+
+
+
+
+//---------------------------------------------------- Begin Iterator--------------------------------------------------------------------
+/**
+ * @brief function return itertor at the begining of the data buffer
+ *  
+ * @tparam T 
+ * @return Iterator<T>  iterator at the start 
+ */
 template<typename T>
 Iterator<T> AIVector<T>::begin()const{
     return this->arr;
 }
 
 
+
+
+
+
+
+//---------------------------------------------------- Inserting ---------------------------------------------------------------------
+/**
+ * @brief function Inserting function that takes an iterator, element  and  insert that element  in the vector    
+ *        if the iterator is valid and within the vector range  
+ * 
+ * @tparam T Iterator (pos of insertion)  , T element (element to be inserted)
+ */
 template<typename T>
 using Iterator = T* ;
 template<typename T>
@@ -399,3 +631,6 @@ void AIVector<T>::insert(Iterator<T> it , T element) {
 }
 
 #endif //ASS_3_AIVECTOR_H
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
