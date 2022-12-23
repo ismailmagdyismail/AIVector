@@ -71,12 +71,14 @@ private:
  * @tparam
  * @param size size required to allocate dynamic array
  */
-template<typename T>
-AIVector<T>::AIVector(int size){
+template <typename T>
+AIVector<T>::AIVector(int size)
+{
     this->arraySize = size;
     this->arrayCapacity = this->size();
     this->arr = new T[this->size()];
 }
+
 
 
 
@@ -90,13 +92,15 @@ AIVector<T>::AIVector(int size){
  * @tparam T
  * @param other
  */
-template<typename T>
-AIVector<T>::AIVector(const AIVector<T> &other){
+template <typename T>
+AIVector<T>::AIVector(const AIVector<T> &other)
+{
     this->arraySize = other.size();
     this->arrayCapacity = this->size();
     this->arr = new T[this->size()];
 
-    for (int i = 0; i < this->size(); ++i) {
+    for (int i = 0; i < this->size(); ++i)
+    {
         this->arr[i] = other.arr[i];
     }
 }
@@ -106,20 +110,21 @@ AIVector<T>::AIVector(const AIVector<T> &other){
 
 
 //----------------------------------------------------Copy from Array--------------------------------------------------------
-
 /**
- * @brief t
+ * @brief array takes copy from the other array
  *
  * @tparam T
  * @param other -> other array to copy from
  * @param n -> size of the elements to copy
  */
-template<typename T>
-AIVector<T>::AIVector(T* other, int n) {
+template <typename T>
+AIVector<T>::AIVector(T *other, int n)
+{
     this->arraySize = n;
     this->arrayCapacity = this->size();
     this->arr = new T[this->size()];
-    for (int i = 0; i <n; ++i) {
+    for (int i = 0; i < n; ++i)
+    {
         this->arr[i] = other[i];
     }
 }
@@ -136,8 +141,9 @@ AIVector<T>::AIVector(T* other, int n) {
  * @tparam T
  * @param other
  */
-template<typename T>
-AIVector<T>::AIVector(AIVector<T>&& other){
+template <typename T>
+AIVector<T>::AIVector(AIVector<T> &&other)
+{
     this->arr = other.arr;
     this->arraySize = other.size();
     this->arrayCapacity = this->size();
@@ -145,9 +151,7 @@ AIVector<T>::AIVector(AIVector<T>&& other){
     other.arr = NULL;
     other.arraySize = 0;
     other.arrayCapacity = 0;
-
 }
-
 
 
 
@@ -160,9 +164,10 @@ AIVector<T>::AIVector(AIVector<T>&& other){
  * @param other
  * @return AIVector<T>&
  */
-template<typename T>
-AIVector<T>& AIVector<T>::operator=(const AIVector<T>& other) {
-    if(&other == this)
+template <typename T>
+AIVector<T> &AIVector<T>::operator=(const AIVector<T> &other)
+{
+    if (&other == this)
         return *this;
     delete[] arr;
 
@@ -170,7 +175,8 @@ AIVector<T>& AIVector<T>::operator=(const AIVector<T>& other) {
     this->arrayCapacity = this->size();
     this->arr = new T[this->size()];
 
-    for (int i = 0; i < this->size(); ++i) {
+    for (int i = 0; i < this->size(); ++i)
+    {
         this->arr[i] = other.arr[i];
     }
     return *this;
@@ -180,11 +186,18 @@ AIVector<T>& AIVector<T>::operator=(const AIVector<T>& other) {
 
 
 
-
-
 //----------------------------------------------------Move Assignment--------------------------------------------------------
-template<typename T>
-AIVector<T> AIVector<T>::operator=(AIVector<T> &&other) {
+// Move assignment
+/**
+ * @brief the array before the = sign get all the properties from the other array after the = sign
+ *
+ * @tparam T
+ * @param other
+ * @return AIVector<T>
+ */
+template <typename T>
+AIVector<T> AIVector<T>::operator=(AIVector<T> &&other)
+{
     this->arr = other.arr;
     this->arraySize = other.size();
     this->arrayCapacity = this->size();
@@ -200,14 +213,12 @@ AIVector<T> AIVector<T>::operator=(AIVector<T> &&other) {
 
 
 
-
 //----------------------------------------------------Destructor------------------------------------------------------------------
 
 template<typename T>
 AIVector<T>::~AIVector() {
     delete[] this->arr;
 }
-
 
 
 
