@@ -214,7 +214,11 @@ AIVector<T> AIVector<T>::operator=(AIVector<T> &&other)
 
 
 //----------------------------------------------------Destructor------------------------------------------------------------------
-
+/**
+ * @brief Destroy the AIVector<T>::AIVector object
+ * 
+ * @tparam T 
+ */
 template<typename T>
 AIVector<T>::~AIVector() {
     delete[] this->arr;
@@ -224,7 +228,13 @@ AIVector<T>::~AIVector() {
 
 
 //----------------------------------------------------INDEXING LHS [] --------------------------------------------------------------------
-
+/**
+ * @brief return element at index 
+ *         raise exception if position is invalid
+ * @tparam T 
+ * @param position position to be returned 
+ * @return T&  element at this position
+ */
 template<typename T>
 T &AIVector<T>::operator[](int position){
     if(position<0 || position >= capacity())
@@ -237,8 +247,15 @@ T &AIVector<T>::operator[](int position){
 
 
 
-//----------------------------------------------------INDEXING RHS [] --------------------------------------------------------------------
 
+//----------------------------------------------------INDEXING RHS [] --------------------------------------------------------------------
+/**
+ * @brief return element at index 
+ * 
+ * @tparam T 
+ * @param position position to be returned 
+ * @return T&  element at this position
+ */
 template<typename T>
 T &AIVector<T>::operator[](int position)const{
     if(position<0 || position >= capacity())
@@ -310,12 +327,12 @@ int AIVector<T>::push_back(const T &element) {
 
 //---------------------------------------------------- < operator --------------------------------------------------------------------
 /**
- * @brief 
+ *@brief check if elements of first vector is smaller than other vector
  * 
  * @tparam T 
  * @param other 
- * @return true 
- * @return false 
+ * @return true if first diffrent element is smaller than the element in other vector
+ * @return false if equal or bigger elements 
  */
 template<typename T>
 bool AIVector<T>::operator<(const AIVector<T> &other)const{
@@ -335,7 +352,7 @@ bool AIVector<T>::operator<(const AIVector<T> &other)const{
 
 //---------------------------------------------------- > operator --------------------------------------------------------------------
 /**
- * @brief check if elements of first vecotr  is bigger than other vector
+ * @brief check if elements of first vector  is bigger than other vector
  * 
  * @tparam T 
  * @param other 
